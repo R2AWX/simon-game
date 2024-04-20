@@ -36,6 +36,13 @@ export default {
       gameOver: false,
       gameDelay: 1000,
       currentRound: 0,
+      sequenceInterval: null,
+      audioFiles: {
+        red: new Audio("/sounds/red.mp3"),
+        blue: new Audio("/sounds/blue.mp3"),
+        green: new Audio("/sounds/green.mp3"),
+        yellow: new Audio("/sounds/yellow.mp3"),
+      },
     };
   },
   methods: {
@@ -69,19 +76,13 @@ export default {
       this.playSequence();
       this.currentRound++;
     },
-    playSequence() {
-      let index = 0;
-      const interval = setInterval(() => {
+    async playSequence() {
+      for (let index = 0; index < this.sequence.length; index++) {
         this.activeColor = this.sequence[index];
-        this.playSound(this.activeColor);
-        index++;
-        if (index >= this.sequence.length) {
-          setTimeout(() => {
-            this.activeColor = "";
-          }, this.gameDelay);
-          clearInterval(interval);
-        }
-      }, this.gameDelay);
+        await this.playSound(this.activeColor);
+        this.activeColor = "";
+        await new Promise((resolve) => setTimeout(resolve, this.gameDelay));
+      }
     },
     handleButtonClick(color) {
       this.userInput.push(color);
@@ -101,9 +102,21 @@ export default {
         }, 1000);
       }
     },
-    playSound(color) {
-      const audio = new Audio(`/sounds/${color}.mp3`);
-      audio.play();
+    async playSound(color) {
+      const sound = this.audioFiles[color];
+      if (sound) {
+        sound.currentTime = 0;
+        await sound.play();
+      }
+    },
+    clearSequenceInterval() {
+      if (this.sequenceInterval) {
+        clearInterval(this.sequenceInterval);
+        this.sequenceInterval = null;
+        setTimeout(() => {
+          this.activeColor = "";
+        }, this.gameDelay / 2);
+      }
     },
   },
 };

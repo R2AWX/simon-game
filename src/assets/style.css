@@ -80,29 +80,29 @@ main {
 }
 
 .red {
-  background-color: #cc0000;
+  background-color: #e60000;
   clip-path: polygon(50% 50%, 100% 0, 100% 100%);
 }
 
 .blue {
-  background-color: #0000cc;
+  background-color: #0000e6;
   clip-path: polygon(50% 50%, 0 0, 100% 0);
 }
 
 .green {
-  background-color: #00cc00;
+  background-color: #00e600;
   clip-path: polygon(50% 50%, 0 100%, 0 0);
 }
 
 .yellow {
-  background-color: #cccc00;
+  background-color: #e6e600;
   clip-path: polygon(50% 50%, 100% 100%, 0 100%);
 }
 
 .active {
-  filter: brightness(1.2);
+  filter: brightness(0.3);
 }
 
 .pressed {
-  filter: brightness(0.8);
+  filter: brightness(0.3);
 }
