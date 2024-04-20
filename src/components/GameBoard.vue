@@ -37,15 +37,20 @@ export default {
       gameDelay: 1000,
       currentRound: 0,
       sequenceInterval: null,
-      audioFiles: {
-        red: new Audio("/sounds/red.mp3"),
-        blue: new Audio("/sounds/blue.mp3"),
-        green: new Audio("/sounds/green.mp3"),
-        yellow: new Audio("/sounds/yellow.mp3"),
-      },
+      audioFiles: this.initializeAudioFiles(),
     };
   },
   methods: {
+    initializeAudioFiles() {
+      const basePath =
+        process.env.NODE_ENV === "production" ? "/simon-game/" : "/";
+      return {
+        red: new Audio(`${basePath}sounds/red.mp3`),
+        blue: new Audio(`${basePath}sounds/blue.mp3`),
+        green: new Audio(`${basePath}sounds/green.mp3`),
+        yellow: new Audio(`${basePath}sounds/yellow.mp3`),
+      };
+    },
     handleStartGame(difficulty) {
       this.setGameDifficulty(difficulty);
       this.startGame();
